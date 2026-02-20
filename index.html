@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>きらきらピアノ教室 | 子ども向け音楽教室</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Zen Maru Gothic (丸くて優しいフォント) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF9EAA', // 優しいピンク
+                        secondary: '#3AC0A0', // 爽やかなグリーン
+                        accent: '#FFD523', // 明るいイエロー
+                        base: '#FFFBF0', // 温かみのあるオフホワイト
+                        textMain: '#5C4E4E' // 柔らかいブラウン系の黒
+                    },
+                    fontFamily: {
+                        sans: ['"Zen Maru Gothic"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFFBF0;
+            color: #5C4E4E;
+        }
+        /* スクロールアニメーション用 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* ふわふわ揺れるアニメーション */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        /* 画像のホバーエフェクト */
+        .img-hover-zoom {
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .img-hover-zoom img {
+            transition: transform 0.5s ease;
+        }
+        .img-hover-zoom:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white">
+
+    <!-- ナビゲーションバー -->
+    <header class="fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i data-lucide="music" class="text-primary w-8 h-8"></i>
+                    <span class="font-bold text-2xl tracking-wider text-primary">きらきらピアノ</span>
+                </div>
+                
+                <!-- PCメニュー -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-textMain hover:text-primary transition font-medium">教室について</a>
+                    <a href="#courses" class="text-textMain hover:text-primary transition font-medium">コース・料金</a>
+                    <a href="#gallery" class="text-textMain hover:text-primary transition font-medium">ギャラリー</a>
+                    <a href="#teacher" class="text-textMain hover:text-primary transition font-medium">講師紹介</a>
+                    <a href="#contact" class="bg-accent hover:bg-yellow-400 text-textMain px-6 py-2.5 rounded-full font-bold shadow-md transform hover:-translate-y-1 transition flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                        無料体験を予約
+                    </a>
+                </nav>
+
+                <!-- モバイルメニューボタン -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-textMain hover:text-primary focus:outline-none">
+                        <i data-lucide="menu" class="w-8 h-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#about" class="block px-3 py-3 text-base font-medium text-textMain hover:bg-pink-50 hover:text-primary rounded-md">教室について</a>
+                <a href="#courses" class="block px-3 py-3 text-base font-medium text-textMain hover:bg-pink-50 hover:text-primary rounded-md">コース・料金</a>
+                <a href="#gallery" class="block px-3 py-3 text-base font-medium text-textMain hover:bg-pink-50 hover:text-primary rounded-md">ギャラリー</a>
+                <a href="#teacher" class="block px-3 py-3 text-base font-medium text-textMain hover:bg-pink-50 hover:text-primary rounded-md">講師紹介</a>
+                <a href="#contact" class="block px-3 py-3 mt-4 text-center text-base font-bold bg-accent text-textMain rounded-full shadow-sm">無料体験を予約する</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+        <!-- 背景装飾 -->
+        <div class="absolute top-20 left-10 w-32 h-32 bg-yellow-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-float"></div>
+        <div class="absolute top-40 right-10 w-48 h-48 bg-pink-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-float" style="animation-delay: 1.5s;"></div>
+        <div class="absolute -bottom-10 left-1/3 w-40 h-40 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-float" style="animation-delay: 3s;"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 text-center md:text-left">
+                    <div class="inline-block bg-white text-primary px-4 py-1.5 rounded-full font-bold text-sm mb-6 shadow-sm border border-pink-100">
+                        ✨ 3歳からの楽しい音楽教室 ✨
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
+                        「弾けた！」の<br>
+                        <span class="text-primary">笑顔</span>を咲かせよう
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+                        音楽の楽しさを全身で感じながら、<br class="hidden md:block">
+                        お子様の豊かな感性と表現力を育みます。<br>
+                        一人ひとりの個性に合わせた個人レッスンです。
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#contact" class="bg-primary hover:bg-pink-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-pink-200 transform hover:-translate-y-1 transition text-center flex items-center justify-center gap-2">
+                            <i data-lucide="music-4" class="w-5 h-5"></i>
+                            無料体験レッスンへ
+                        </a>
+                        <a href="#about" class="bg-white hover:bg-gray-50 border-2 border-gray-200 text-textMain px-8 py-4 rounded-full font-bold text-lg transition text-center">
+                            教室について詳しく
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <!-- メイン画像 -->
+                    <div class="relative z-10 rounded-3xl overflow-hidden border-8 border-white shadow-xl transform rotate-2">
+                        <img src="https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&q=80&w=800" alt="笑顔でピアノを弾く子どもの写真" class="w-full h-auto object-cover aspect-[4/3]">
+                    </div>
+                    <!-- サブ画像 -->
+                    <div class="absolute -bottom-8 -left-8 z-20 w-48 rounded-2xl overflow-hidden border-4 border-white shadow-lg transform -rotate-6 hidden sm:block">
+                        <img src="https://images.unsplash.com/photo-1514119412350-e174d90d280e?auto=format&fit=crop&q=80&w=400" alt="ピアノの鍵盤を弾く小さな手" class="w-full h-auto object-cover aspect-square">
+                    </div>
+                    <div class="absolute -top-8 -right-8 z-0 text-accent opacity-80 animate-float">
+                        <i data-lucide="music" class="w-20 h-20"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特徴セクション -->
+    <section id="about" class="py-20 bg-white relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-black text-primary mb-4 flex items-center justify-center gap-3">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-accent"></i>
+                    教室の3つの特徴
+                    <i data-lucide="sparkles" class="w-8 h-8 text-accent"></i>
+                </h2>
+                <p class="text-gray-600">きらきらピアノ教室が選ばれる理由</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- 特徴1 -->
+                <div class="bg-base p-8 rounded-3xl text-center shadow-sm hover:shadow-md transition fade-in">
+                    <div class="w-20 h-20 mx-auto bg-pink-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-lucide="heart" class="w-10 h-10 text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">一人ひとりに合わせた<br>完全個人レッスン</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        お子様の性格や成長のペースに合わせて、最適な教材と指導方法を選びます。無理なく楽しく続けられる環境を整えています。
+                    </p>
+                </div>
+                <!-- 特徴2 -->
+                <div class="bg-base p-8 rounded-3xl text-center shadow-sm hover:shadow-md transition fade-in" style="transition-delay: 0.2s;">
+                    <div class="w-20 h-20 mx-auto bg-yellow-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-lucide="smile" class="w-10 h-10 text-yellow-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">「楽しい！」が<br>いっぱい詰まった教材</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        ただ弾くだけでなく、歌ったり、リズムを叩いたり、色を塗ったり。五感を使って音楽を総合的に学ぶことができる工夫が満載です。
+                    </p>
+                </div>
+                <!-- 特徴3 -->
+                <div class="bg-base p-8 rounded-3xl text-center shadow-sm hover:shadow-md transition fade-in" style="transition-delay: 0.4s;">
+                    <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-6">
+                        <i data-lucide="star" class="w-10 h-10 text-secondary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">自信に繋がる<br>年1回の発表会</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        立派なホールでドレスアップして演奏する経験は、子どもたちを大きく成長させます。ご家族で成長を喜び合える大切なイベントです。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- コースセクション -->
+    <section id="courses" class="py-20 bg-pink-50 relative">
+        <!-- 上部の波線装飾 -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-12">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#ffffff"></path>
+            </svg>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-black text-textMain mb-4">コースのご案内</h2>
+                <p class="text-gray-600">年齢や目的に合わせた3つのステップ</p>
+            </div>
+
+            <div class="space-y-12">
+                <!-- 幼児コース -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md flex flex-col md:flex-row fade-in">
+                    <div class="md:w-2/5 h-64 md:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&q=80&w=800" alt="楽しそうに音楽に触れる幼児" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-primary text-white font-bold px-4 py-1 rounded-full text-sm">3歳〜未就学児</div>
+                    </div>
+                    <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold text-primary mb-4">プレ・ピアノコース</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            本格的なピアノ演奏に入る前の準備期間として、リトミック要素を取り入れたレッスンです。<br>
+                            「音楽って楽しい！」という気持ちを育てながら、音感やリズム感を自然に身につけます。
+                        </p>
+                        <ul class="space-y-2 mb-6 text-sm font-medium">
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-secondary"></i>1回30分 / 月3〜4回 (年間40回)</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-secondary"></i>お月謝：6,000円 (税込)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 小学生コース -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md flex flex-col md:flex-row-reverse fade-in">
+                    <div class="md:w-2/5 h-64 md:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1593026330962-d922b9f36f9d?auto=format&fit=crop&q=80&w=800" alt="真剣にピアノを弾く小学生" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-secondary text-white font-bold px-4 py-1 rounded-full text-sm">小学生</div>
+                    </div>
+                    <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold text-secondary mb-4">ジュニアコース</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            楽譜を読む力（読譜力）と、自分の指で表現するテクニックをバランス良く育てます。<br>
+                            クラシックの基礎はもちろん、お子様の弾きたい曲（ポップスやアニメソングなど）も取り入れ、モチベーションを高めます。
+                        </p>
+                        <ul class="space-y-2 mb-6 text-sm font-medium">
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-secondary"></i>1回40分 / 月3〜4回 (年間40回)</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-secondary"></i>お月謝：7,500円 (税込)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- フォトギャラリー -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-black text-textMain mb-4 flex items-center justify-center gap-3">
+                    <i data-lucide="camera" class="w-8 h-8 text-primary"></i>
+                    教室のギャラリー
+                </h2>
+                <p class="text-gray-600">笑顔あふれるレッスンの様子や発表会の風景</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <!-- 画像1 (大) -->
+                <div class="col-span-2 row-span-2 img-hover-zoom fade-in">
+                    <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=1000" alt="音楽を楽しむ子どもたち" class="w-full h-full object-cover rounded-2xl aspect-square md:aspect-auto">
+                </div>
+                <!-- 画像2 -->
+                <div class="img-hover-zoom fade-in" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&q=80&w=600" alt="グランドピアノ" class="w-full h-full object-cover rounded-2xl aspect-square">
+                </div>
+                <!-- 画像3 -->
+                <div class="img-hover-zoom fade-in" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1469044569418-20d04c055663?auto=format&fit=crop&q=80&w=600" alt="楽譜" class="w-full h-full object-cover rounded-2xl aspect-square">
+                </div>
+                <!-- 画像4 -->
+                <div class="img-hover-zoom fade-in" style="transition-delay: 0.3s;">
+                    <img src="https://images.unsplash.com/photo-1502773860571-211a597d6e4b?auto=format&fit=crop&q=80&w=600" alt="可愛い小物楽器" class="w-full h-full object-cover rounded-2xl aspect-square">
+                </div>
+                <!-- 画像5 -->
+                <div class="img-hover-zoom fade-in" style="transition-delay: 0.4s;">
+                    <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=600" alt="発表会の様子" class="w-full h-full object-cover rounded-2xl aspect-square">
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center gap-2 text-primary font-bold hover:text-pink-500 transition group">
+                    Instagramでもっと写真を見る
+                    <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1 transition"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 講師紹介 -->
+    <section id="teacher" class="py-20 bg-base relative overflow-hidden">
+        <!-- 背景の音符アイコン -->
+        <i data-lucide="music-2" class="absolute top-10 right-10 w-32 h-32 text-pink-100 opacity-50 -rotate-12"></i>
+        <i data-lucide="music-3" class="absolute bottom-10 left-10 w-40 h-40 text-blue-100 opacity-50 rotate-12"></i>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-white rounded-[3rem] p-8 md:p-12 shadow-xl fade-in border-4 border-pink-50">
+                <div class="flex flex-col md:flex-row items-center gap-10">
+                    <div class="w-48 h-48 md:w-64 md:h-64 flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600" alt="講師の先生の笑顔の写真" class="w-full h-full object-cover rounded-full border-8 border-pink-100 shadow-md">
+                    </div>
+                    <div>
+                        <div class="mb-2 text-sm font-bold text-primary tracking-widest">TEACHER</div>
+                        <h2 class="text-3xl font-black mb-2">星野 かなで <span class="text-lg font-normal text-gray-500 ml-2">Kanade Hoshino</span></h2>
+                        <p class="text-sm text-gray-500 mb-6">音楽大学 器楽科ピアノ専攻 卒業</p>
+                        
+                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                            <p>
+                                はじめまして！きらきらピアノ教室、講師の星野です。<br>
+                                音楽は、言葉のいらないコミュニケーションツールであり、心を豊かにしてくれる一生の宝物です。
+                            </p>
+                            <p>
+                                「ピアノが弾けるようになりたい！」という子どもたちのキラキラした瞳を大切に、一人ひとりのペースに寄り添ったレッスンを心がけています。できた時の喜びを一緒に分かち合いましょう！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- お問い合わせ・体験レッスン -->
+    <section id="contact" class="py-24 bg-primary text-white text-center relative">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 fade-in">
+            <i data-lucide="gift" class="w-16 h-16 mx-auto mb-6 text-yellow-300"></i>
+            <h2 class="text-3xl md:text-4xl font-black mb-6">まずは無料体験レッスンへ！</h2>
+            <p class="mb-10 text-pink-50 text-lg">
+                教室の雰囲気や、先生との相性を確かめてみませんか？<br>
+                ピアノに触るのが初めてのお子様も大歓迎です！
+            </p>
+            
+            <div class="bg-white text-textMain rounded-3xl p-8 max-w-lg mx-auto shadow-2xl transform hover:scale-105 transition duration-300">
+                <h3 class="font-bold text-xl mb-6 text-primary">Webからのご予約（24時間受付）</h3>
+                <form class="space-y-4 text-left">
+                    <div>
+                        <label class="block text-sm font-bold mb-1 text-gray-600">保護者様のお名前</label>
+                        <input type="text" placeholder="例：山田 ピアノ" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-200 transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1 text-gray-600">お子様の年齢・学年</label>
+                        <select class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-200 transition bg-white">
+                            <option>選択してください</option>
+                            <option>3歳〜未就学児</option>
+                            <option>小学1〜3年生</option>
+                            <option>小学4〜6年生</option>
+                            <option>中学生以上</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1 text-gray-600">メールアドレス</label>
+                        <input type="email" placeholder="mail@example.com" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-200 transition">
+                    </div>
+                    <button type="button" class="w-full bg-accent hover:bg-yellow-400 text-textMain font-black text-lg py-4 rounded-xl shadow-md mt-4 transition">
+                        体験レッスンを申し込む
+                    </button>
+                    <p class="text-xs text-center text-gray-400 mt-3">※無理な勧誘等は一切行いませんのでご安心ください。</p>
+                </form>
+            </div>
+            
+            <div class="mt-12">
+                <p class="mb-2 font-bold text-pink-100">お電話でのご予約・お問い合わせ</p>
+                <a href="tel:0000000000" class="text-3xl md:text-4xl font-black tracking-wider hover:text-yellow-200 transition flex items-center justify-center gap-3">
+                    <i data-lucide="phone" class="w-8 h-8"></i>
+                    0120-000-000
+                </a>
+                <p class="text-sm mt-2 text-pink-200">受付時間：平日 10:00〜19:00</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="bg-textMain text-gray-300 py-12 text-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i data-lucide="music" class="text-primary w-6 h-6"></i>
+                        <span class="font-bold text-xl text-white tracking-wider">きらきらピアノ教室</span>
+                    </div>
+                    <p class="leading-relaxed mb-4">
+                        子どもたちの笑顔と音楽があふれる、<br>
+                        温かい雰囲気のピアノ教室です。
+                    </p>
+                    <div class="flex gap-4">
+                        <!-- SNSアイコン -->
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition text-white">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-blue-500 transition text-white">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4 text-lg border-b border-gray-700 pb-2">教室情報</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 flex-shrink-0 text-gray-400 mt-0.5"></i>
+                            <span>〒123-4567<br>東京都音符区ドレミ町 1-2-3<br>メロディビル2F</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="train" class="w-5 h-5 flex-shrink-0 text-gray-400"></i>
+                            <span>「音符タウン駅」南口より徒歩3分</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="car" class="w-5 h-5 flex-shrink-0 text-gray-400"></i>
+                            <span>専用駐車場 2台完備</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 text-lg border-b border-gray-700 pb-2">リンク</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> ホーム</a></li>
+                        <li><a href="#about" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> 教室について</a></li>
+                        <li><a href="#courses" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> コース・料金</a></li>
+                        <li><a href="#gallery" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> ギャラリー</a></li>
+                        <li><a href="#teacher" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> 講師紹介</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center text-xs text-gray-500">
+                <p>&copy; 2023 Kirakira Piano School. All Rights Reserved.</p>
+                <p class="mt-2">※当サイトの写真はすべてイメージです（ダミー画像を使用しています）。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- スクリプト類 -->
+    <script>
+        // Lucideアイコンの初期化
+        lucide.createIcons();
+
+        // モバイルメニューのトグル
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // モバイルメニューのリンクをクリックしたらメニューを閉じる
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // スクロールアニメーション (Fade In)
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // 一度アニメーションしたら監視解除
+                }
+            });
+        }, observerOptions);
+
+        fadeElements.forEach(el => {
+            observer.observe(el);
+        });
+
+        // スムーススクロール (アンカーリンク)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    // ヘッダーの高さを考慮してスクロール
+                    const headerHeight = 80;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
